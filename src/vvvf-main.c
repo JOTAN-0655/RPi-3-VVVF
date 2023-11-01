@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 #include "vvvf-struct.h"
 #include "vvvf-sounds.h"
@@ -85,6 +86,7 @@ void taskCalculationPhases(void *param)
 {
     uint64_t _s = 0;
     PhaseStatus outputU = 0, outputV = 0, outputW = 0;
+    PhaseStatus preOutputU = 0, preOutputV = 0, preOutputW = 0;
     while (true)
     {
         _s = timer_getTickCount64();
@@ -97,6 +99,10 @@ void taskCalculationPhases(void *param)
         statusGpio.sin_time += _t;
         statusGpio.generation_current_time = timer_getTickCount64() / 1000000.0;
         calculatePhases(&outputU, &outputV, &outputW, &statusGpio, soundGpio);
+
+        if(abs(outputU - preOutputU) == 2) { preOutputU = outputU; outputU = 1; }
+        if(abs(outputV - preOutputV) == 2) { preOutputV = outputV; outputV = 1; }
+        if(abs(outputW - preOutputW) == 2) { preOutputW = outputW; outputW = 1; }
 
         if(!statusGpio.mascon_off){
             if(statusGpio.free_run){
