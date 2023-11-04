@@ -369,7 +369,7 @@ void main(void)
 	setSoundVvvfGpio(vvvf_sounds[0]);
 
 #ifdef ENABLE_DISPLAY
-	initializeWindow(0, 0, 0); // Auto resolution console, message to screen
+	initializeWindow(640, 360, 1024, 600, 16); // Auto resolution console, message to screen
 	initializeDMA();
 	screenDMA((uint32_t)boot_img, frameBufferAddress & ~0xC0000000, 640 * 360 * 2);
 #endif

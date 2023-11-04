@@ -12,6 +12,8 @@ uint32_t frameBufferDepth = 0x00;
 
 bool initializeWindow (int Width,										// Screen width request (Use 0 if you wish autodetect width)
 					  int Height,									// Screen height request (Use 0 if you wish autodetect height)
+					  int PhysicalWidth,
+					  int PhysicalHeight,
 					  int Depth)									// Screen colour depth request (Use 0 if you wish autodetect colour depth) 
 {
 	uint32_t buffer[23];
@@ -30,7 +32,7 @@ bool initializeWindow (int Width,										// Screen width request (Use 0 if you
 		} else return false;										// For some reason get screen depth failed
 	}
 	if (!mailbox_tag_message(&buffer[0], 23,
-		MAILBOX_TAG_SET_PHYSICAL_WIDTH_HEIGHT, 8, 8, Width, Height,
+		MAILBOX_TAG_SET_PHYSICAL_WIDTH_HEIGHT, 8, 8, PhysicalWidth, PhysicalHeight,
 		MAILBOX_TAG_SET_VIRTUAL_WIDTH_HEIGHT, 8, 8, Width, Height,
 		MAILBOX_TAG_SET_COLOUR_DEPTH, 4, 4, Depth,
 		MAILBOX_TAG_ALLOCATE_FRAMEBUFFER, 8, 4, 16, 0,
